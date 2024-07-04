@@ -1,17 +1,22 @@
- const router = require("express").router();
-
+ const express = require("express");
+ const router = express.Router();
+ const questController = require('../controllers/quest-controller');
  
-//Users:
+// GET / gets all quests
+router.get('/', questController.getAllQuests);
 
-// POST /auth logging in
-// POST /auth/register  registering
-// PUT /auth/edit updating password/email
- 
-// Tasks:
-//  GET /tasks gets all tasks
-//  POST/ Quest
-//  PUT/ Quest/:id
-//  Delete/ Quest/:id
+//GET quests based on status (filter)
+
+//GET quests based on category (filter)
 
 
- module.exports = router;
+// POST /create a new quest 
+router.post('/', questController.createQuest);
+
+// PUT /update a quest 
+router.put('/:id', questController.updateQuestById);
+
+// DELETE /delete a quest 
+router.delete('/:id', questController.deleteQuestsById);
+
+module.exports = router;
