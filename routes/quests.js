@@ -5,11 +5,6 @@
 // GET / gets all quests
 router.get('/', questController.getAllQuests);
 
-//GET quests based on status (filter)
-
-//GET quests based on category (filter)
-
-
 // POST /create a new quest 
 router.post('/', questController.createQuest);
 

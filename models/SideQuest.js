@@ -1,4 +1,4 @@
-const sequelize = require("../config/db");
+const {sequelize} = require("../config/db");
 
 const {DataTypes, Model} = require ("sequelize");
 const Quest = require("./Quest");

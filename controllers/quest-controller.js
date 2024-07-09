@@ -1,5 +1,3 @@
-// how to create a record with sequlize model using the user model, request body
-
 const {Quest} = require('../models/Quest');
 
 const createQuest = async (req, res) => {
@@ -21,6 +19,7 @@ const createQuest = async (req, res) => {
       console.error(error);
       res.status(500).json({ error: 'Server Error' });
     }
+    // add filters request.query
   };
 
   const updateQuestById = async (req, res) => {
