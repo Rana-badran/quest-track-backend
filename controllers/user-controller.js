@@ -6,12 +6,14 @@ const {User} = require('../models/index.js');
 const createUser = async (req, res) => {
     try {
       const { firstName, lastName, email, password } = req.body;
-      // use bcrypt to hash password before saving user (.hash and .compare method)
+      // use bcrypt to hash password before saving user (.hash 'increption' and .compare method)
       const hashedPassword = await bcrypt.hash(password, saltRounds);
+      // user.create saves the password + other properties once its been hashed
       const newUser = await User.create({ firstName, lastName, email, password:hashedPassword });
+      console.log("newuser", newUser);
       // create a token using jsonwebtoken
-      const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET);
-      // search npm json webtoken (sign and decode methods) 
+      const token = jwt.sign({ id: newUser.dataValues.userId}, process.env.JWT_SECRET);
+      // search npm json webtoken (sign 'to create the token' and uses something unique 'id', same secret to sign and verify the token and decode methods) 
       res.cookie("questToken", token, {
         maxAge: 24*60*60*1000*14
       })
@@ -31,6 +33,7 @@ const createUser = async (req, res) => {
       // the key is the word email and the body is email variable. if the same word you can write it once
       if (user) {
         // decode password from database - use library methods (.hash and .compare)
+        // consol log user variable: puts in user in datavalues (sequelize specific)
         const isMatch = await bcrypt.compare(password, user.dataValues.password);
         console.log(isMatch);
         if (isMatch) {
@@ -75,10 +78,10 @@ const createUser = async (req, res) => {
         if (password) {
           req.loggedUser.password = await bcrypt.hash(password,10)
         }
-        await req.loggedUser.save();
+        await User.update(req.loggedUser,{where:{userId:req.loggedUser.userId}});
         res.status(200).json(req.loggedUser);
       } else {
-        res.status(404).json({ error: 'User not found' });
+        res.status(403).json({ error: 'User not authorized' });
       }
     } catch (error) {
       console.error(error);
@@ -90,8 +93,10 @@ const createUser = async (req, res) => {
     try {
       const { id } = req.params;
       const user = await User.findByPk(id);
+      // will use the middleware/ update in the routes file and update req.logged user 
       if (user) {
         await user.destroy();
+        // sequelize destroy method (User.something similar to update) 
         res.status(204).json();
       } else {
         res.status(404).json({ error: 'User not found' });

@@ -44,7 +44,7 @@ const Quest = sequelize.define(
         },
         categoryId: {
             type:DataTypes.INTEGER,
-                allowNull: false,  
+                allowNull: true,  
                 references: {model:Category, key:"categoryId"}
         }
     }

@@ -11,7 +11,6 @@ router.post('/', userController.createUser);
 router.post('/login', userController.logInUser);
 
 // PUT /update a user 
-
 router.put('/:id', authorize , userController.updateUserById);
 
 // DELETE /delete a user 

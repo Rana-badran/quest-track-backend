@@ -1,9 +1,11 @@
 const {Quest} = require('../models/Quest');
 
 const createQuest = async (req, res) => {
+  // can't create quests unless you're authorized --> adding in the routes and how to access the userid after authorized 
     try {
       const {questName, description, difficulty, status, importance, dueDate } = req.body;
       const newQuest = await Quest.create({ questName, description, difficulty, status, importance, dueDate });
+      // create with userid 
       res.status(201).json(newQuest);
     } catch (error) {
       console.error(error);
@@ -13,7 +15,7 @@ const createQuest = async (req, res) => {
 
   const getAllQuests = async (req, res) => {
     try {
-      const quest = await User.findAll();
+      const quest = await Quest.findAll();
       res.status(200).json(quest);
     } catch (error) {
       console.error(error);
