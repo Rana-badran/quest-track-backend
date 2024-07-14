@@ -1,10 +1,18 @@
 const {Quest} = require('../models/Quest');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const jwt = require('jsonwebtoken');
 
 const createQuest = async (req, res) => {
   // can't create quests unless you're authorized --> adding in the routes and how to access the userid after authorized 
-    try {
+  console.log("createQuest", req.loggedUser);  
+  try {
       const {questName, description, difficulty, status, importance, dueDate } = req.body;
-      const newQuest = await Quest.create({ questName, description, difficulty, status, importance, dueDate });
+      if (req.loggedUser) {
+         await Quest.create({questName, description, difficulty, status, importance, dueDate });
+
+        const newQuest = await Quest.create({ questName, description, difficulty, status, importance, dueDate });
+      }
       // create with userid 
       res.status(201).json(newQuest);
     } catch (error) {

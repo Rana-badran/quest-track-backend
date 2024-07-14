@@ -62,7 +62,7 @@ const createUser = async (req, res) => {
     }
   };
 
-  const updateUserById = async (req, res) => {
+  const updateLoggedUser = async (req, res) => {
     // checking if we are getting verified user
     console.log("updateuser", req.loggedUser);
     try {
@@ -89,14 +89,13 @@ const createUser = async (req, res) => {
     }
   };
 
-  const deleteUserById = async (req, res) => {
+  const deleteLoggedUser = async (req, res) => {
     try {
-      const { id } = req.params;
-      const user = await User.findByPk(id);
+      // const { id } = req.params;
+      // const user = await User.findByPk(id);
       // will use the middleware/ update in the routes file and update req.logged user 
-      if (user) {
-        await user.destroy();
-        // sequelize destroy method (User.something similar to update) 
+      if (req.loggedUser) {
+        await req.loggedUser.destroy();
         res.status(204).json();
       } else {
         res.status(404).json({ error: 'User not found' });
@@ -112,6 +111,6 @@ const createUser = async (req, res) => {
   module.exports = {
     createUser,
     logInUser ,
-    updateUserById,
-    deleteUserById 
+    updateLoggedUser,
+    deleteLoggedUser 
   }

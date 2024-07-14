@@ -11,10 +11,10 @@ router.post('/', userController.createUser);
 router.post('/login', userController.logInUser);
 
 // PUT /update a user 
-router.put('/:id', authorize , userController.updateUserById);
+router.put('/update', authorize , userController.updateLoggedUser);
 
 // DELETE /delete a user 
-router.delete('/:id', userController.deleteUserById);
+router.delete('/:id', authorize , userController.deleteLoggedUser);
 
 
 module.exports = router;
