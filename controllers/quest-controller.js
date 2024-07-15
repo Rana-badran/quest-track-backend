@@ -7,14 +7,15 @@ const createQuest = async (req, res) => {
   // can't create quests unless you're authorized --> adding in the routes and how to access the userid after authorized 
   console.log("createQuest", req.loggedUser);  
   try {
-      const {questName, description, difficulty, status, importance, dueDate } = req.body;
+    // this will only happen from the request, pulling the data from the request based on the model, expecting the request to have those properties 
+      const {questName, description, difficulty, status, importance, dueDate, categoryId } = req.body;
       if (req.loggedUser) {
-         await Quest.create({questName, description, difficulty, status, importance, dueDate });
-
-        const newQuest = await Quest.create({ questName, description, difficulty, status, importance, dueDate });
+        // creating an object with keys, destructuring shortcut (when the key and the value are the same) -> sequelize line to create the quest
+         await Quest.create({questName, description, difficulty, status, importance, dueDate, categoryId });
+        // const newQuest = await Quest.create({ questName, description, difficulty, status, importance, dueDate });
       }
       // create with userid 
-      res.status(201).json(newQuest);
+      res.status(201).json( {message:"success! new quest created"});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: ' Server Error' });

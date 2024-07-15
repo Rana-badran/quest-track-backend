@@ -11,10 +11,13 @@ router.post('/', userController.createUser);
 router.post('/login', userController.logInUser);
 
 // PUT /update a user 
-router.put('/update', authorize , userController.updateLoggedUser);
+router.put('/', authorize , userController.updateLoggedUser);
 
 // DELETE /delete a user 
-router.delete('/:id', authorize , userController.deleteLoggedUser);
+router.delete('/', authorize , userController.deleteLoggedUser);
 
 
+// remove the /:id since we are using auth and don't need the id (no req.params)
+// router.delete('/:id', authorize , userController.deleteLoggedUser);
+// post and delete can be the same path/endpoint because they're different methods 
 module.exports = router;

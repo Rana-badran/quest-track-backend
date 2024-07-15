@@ -6,6 +6,7 @@ const authorize = async (req, res, next)=> {
     console.log("cookies", req.cookies);
 try { 
     const token = req.cookies.questToken
+    // checking the cookies 
     // req.cookies={questToken:"blablablah"} if the user logged in then this is what's in the  questToken
     if (token) {
         console.log("token", token);

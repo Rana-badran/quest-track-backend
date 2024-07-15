@@ -13,7 +13,9 @@ const createUser = async (req, res) => {
       console.log("newuser", newUser);
       // create a token using jsonwebtoken
       const token = jwt.sign({ id: newUser.dataValues.userId}, process.env.JWT_SECRET);
+      // increpting the object  {id}, and we make the token
       // search npm json webtoken (sign 'to create the token' and uses something unique 'id', same secret to sign and verify the token and decode methods) 
+      // verify in the auth
       res.cookie("questToken", token, {
         maxAge: 24*60*60*1000*14
       })
@@ -95,10 +97,15 @@ const createUser = async (req, res) => {
       // const user = await User.findByPk(id);
       // will use the middleware/ update in the routes file and update req.logged user 
       if (req.loggedUser) {
-        await req.loggedUser.destroy();
+        await User.destroy({
+          where: {
+            userId:req.loggedUser.userId,
+          },
+        } );
+        // sequelize: use the model User not the instance "1 user" 
         res.status(204).json();
       } else {
-        res.status(404).json({ error: 'User not found' });
+        res.status(403).json({ error: 'user not authorized' });
       }
     } catch (error) {
       console.error(error);
