@@ -11,11 +11,13 @@ const createQuest = async (req, res) => {
       const {questName, description, difficulty, status, importance, dueDate, categoryId } = req.body;
       if (req.loggedUser) {
         // creating an object with keys, destructuring shortcut (when the key and the value are the same) -> sequelize line to create the quest
-         await Quest.create({questName, description, difficulty, status, importance, dueDate, categoryId });
+         await Quest.create({questName, description, difficulty, status, importance, dueDate, categoryId, userId:req.loggedUser.userId });
         // const newQuest = await Quest.create({ questName, description, difficulty, status, importance, dueDate });
+        res.status(201).json( {message:"success! new quest created"});
       }
+      // add else "not authorized"
       // create with userid 
-      res.status(201).json( {message:"success! new quest created"});
+      
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: ' Server Error' });
@@ -25,6 +27,7 @@ const createQuest = async (req, res) => {
   const getAllQuests = async (req, res) => {
     try {
       const quest = await Quest.findAll();
+      // where userid is req.loggedUser.userId
       res.status(200).json(quest);
     } catch (error) {
       console.error(error);

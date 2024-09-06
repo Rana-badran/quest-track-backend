@@ -14,7 +14,8 @@ const PORT = 8080;
 const app = express();
 
 // middleware
-app.use(cors());
+app.use(cors({
+}));
 app.use(cookieParser());
 app.use(express.json());
 dotenv.config();

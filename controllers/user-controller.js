@@ -17,7 +17,8 @@ const createUser = async (req, res) => {
       // search npm json webtoken (sign 'to create the token' and uses something unique 'id', same secret to sign and verify the token and decode methods) 
       // verify in the auth
       res.cookie("questToken", token, {
-        maxAge: 24*60*60*1000*14
+        maxAge: 24*60*60*1000*14,
+        httpOnly: true
       })
       res.status(201).json(newUser);
       // would also include the token with the response

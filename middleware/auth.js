@@ -20,6 +20,7 @@ try {
         // decoded.id --> one property 'id' when the token is verified 
         if (verifiedUser) {
             req.loggedUser = verifiedUser.dataValues
+            console.log("loggedUser",req.loggedUser);
             // verifiedUser --> {dataVales:{id:1, firstName:"bob"}} (from usercontroller after logging in)
             // req.(what we want to call), when we pass to the next function, this verified user will be attached to the user 
             // make up loggedUser as the property to contain the user that's been verified and logged in
@@ -30,6 +31,7 @@ try {
     next()
 
 }
+
 catch {res.status(500).json({error:"server not authorized"})
 
 }
